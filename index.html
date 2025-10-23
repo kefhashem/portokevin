@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Iskandar Hasyim - Marketing Manager & Social Media Enthusiast</title>
+    
+    <!-- 1. Google Font: Inter (Requires internet) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- 2. Font Awesome for Social Icons (Requires internet) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* ... (CSS tetap sama) ... */
+        :root {
+            --background-color: #0c1a30; 
+            --text-color: #e6f1ff;       
+            --accent-color: #4ac7ff;     
+            --secondary-text: #94a3b8;   
+            --font-family-primary: 'Inter', sans-serif; 
+        }
+
+        /* Basic Styling and Reset */
+        body {
+            font-family: var(--font-family-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        /* Link/Anchor Transitions */
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+        
+        /* Kontainer Utama untuk Two-Columns Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 40% 60%; 
+            gap: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px; 
+            min-height: 100vh;
+        }
+        
+        /* ============================================== */
+        /* KOLOM KIRI: SIDEBAR (FIXED) */
+        /* ============================================== */
+        .sidebar {
+            position: fixed; /* FIXED: Tidak ikut scroll */
+            top: 0;
+            left: auto; 
+            height: 100vh;
+            width: calc(40% - 50px); 
+            max-width: 510px; 
+            padding: 100px 0 50px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* PENTING: Untuk memisahkan konten atas dan ikon sosial di bawah */
+        }
+        
+        /* Konten Area Kanan (Geser ke Kanan) */
+        .content-area {
+            grid-column: 2 / 3; 
+            padding: 100px 0 50px 0;
+        }
+
+        /* Header/Logo Styling */
+        .header-content {
+            margin-bottom: 80px;
+        }
+        
+        .header-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--text-color);
+            margin: 0 0 10px 0;
+        }
+        
+        .header-content h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--secondary-text);
+            margin: 0 0 5px 0;
+        }
+
+        /* Navigasi (Gaya Garis & Hover/Active) */
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav ul li { margin-bottom: 10px; }
+
+        nav ul li a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary-text);
+            display: block;
+            padding-left: 20px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        /* Garis Kiri Navigasi (Efek BC) */
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 1px; 
+            background-color: var(--secondary-text);
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--text-color);
+        }
+        
+        /* Efek Hover/Active Navigasi: Garis memanjang */
+        nav ul li a:hover::before,
+        nav ul li a.active::before {
+            height: 20px; 
+            background-color: var(--text-color);
+        }
+        
+        /* Ikon Media Sosial */
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-right: 20px;
+            opacity: 0.7;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+            opacity: 1;
+        }
+
+        /* Konten Area (Kanan) */
+        .content-area section {
+            margin-bottom: 100px;
+            opacity: 0.8;
+            padding-right: 20px; 
+        }
+
+        .experience-item {
+            display: block; 
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .experience-item:hover {
+            background-color: #1a2c48; 
+            opacity: 1;
+        }
+        
+        .experience-duration {
+             font-size: 0.8rem;
+             color: var(--accent-color); 
+             font-weight: 600;
+             margin-bottom: 5px;
+        }
+        
+        .experience-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+        
+        .experience-company, .experience-description {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-top: 5px;
+        }
+
+        /* Skills Tags */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-tag {
+            background-color: #263859; 
+            color: var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Responsive Breakpoint: Stack Columns */
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+            
+            .sidebar {
+                position: static; 
+                height: auto;
+                width: 100%;
+                max-width: none;
+                padding: 50px 0 30px 0;
+                margin-left: 0;
+            }
+            
+            .content-area {
+                grid-column: 1 / 2;
+                padding: 30px 0 50px 0;
+            }
+            
+            nav {
+                display: none; 
+            }
+            
+            .social-links {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-layout">
+        <!-- ============================================== -->
+        <!-- KOLOM KIRI (SIDEBAR - FIXED) -->
+        <!-- ============================================== -->
+        <aside class="sidebar">
+            <div>
+                <!-- Header/Logo -->
+                <div class="header-content">
+                    <h1>Kevin Iskandar Hasyim</h1>
+                    <h2>Marketing Manager</h2>
+                    <p style="color: var(--secondary-text); font-size: 1rem; margin-top: 15px;">
+                        Social Media & E-Commerce Enthusiast.
+                    </p>
+                </div>
+                
+                <!-- Navigasi -->
+                <nav>
+                    <ul>
+                        <li><a href="#about" class="nav-link">ABOUT</a></li>
+                        <li><a href="#experience" class="nav-link">EXPERIENCE</a></li>
+                        <li><a href="#skills" class="nav-link">SKILLS</a></li>
+                        <li><a href="#portfolio" class="nav-link">PORTFOLIO</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- Ikon Media Sosial -->
+            <div class="social-links">
+                <!-- GitHub -->
+                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                <!-- LinkedIn -->
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <!-- TikTok -->
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <!-- Instagram -->
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <!-- Email -->
+                <a href="mailto:kefhashem@gmail.com"><i class="fa fa-envelope"></i></a>
+            </div>
+        </aside>
+
+        <!-- ============================================== -->
+        <!-- KOLOM KANAN (MAIN CONTENT - SCROLLABLE) -->
+        <!-- ============================================== -->
+        <main class="content-area">
+            
+            <!-- ABOUT SECTION -->
+            <section id="about">
+                <p>
+                    A Social Media & E-Commerce Enthusiast with over 8 years of experience in the retail and F&B industry. Proficient in managing online sales (Shopee, Tokopedia) and building content on TikTok & Instagram, successfully achieving <strong>1,700+ followers</strong> and <strong>330,000 likes</strong>.
+                </p>
+                <p>
+                    I have strong expertise in content creation, campaign strategy, and digital performance analysis, proven to boost engagement and sales. My goal is to contribute as a Social Media Specialist with a creative, data-driven, and results-oriented approach.
+                </p>
+                <p>
+                    Currently deepening my knowledge in Web Development (GitHub, Firebase, Google Studio) to create efficient self-managed reporting systems for marketing performance.
+                </p>
+            </section>
+
+            <!-- EXPERIENCE SECTION -->
+            <section id="experience">
+                <h2>KEY WORK EXPERIENCE</h2>
+                <ul class="experience-list">
+                    <!-- Manager Marketing (Dynamic End Date) -->
+                    <li class="experience-item">
+                        <div class="experience-duration" data-start="2025-08">August 2025 - <span class="current-date">Present</span></div>
+                        <h3 class="experience-title">Marketing Manager</h3>
+                        <p class="experience-company">Kaosedhewe</p>
+                    </li>
+                    <!-- Store Manager Petshop Indonesia -->
+                    <li class="experience-item">
+                        <div class="experience-duration">April 2024 - August 2025 (1 year 4 months)</div>
+                        <h3 class="experience-title">Store Manager</h3>
+                        <p class="experience-company">Petshop Indonesia – Semarang</p>
+                        <p class="experience-description">Recipient of the <strong>Zero Complaint Award 2025</strong> for excellent service during peak season.</p>
+                    </li>
+                    <!-- Store Manager Wingheng -->
+                    <li class="experience-item">
+                        <div class="experience-duration">December 2022 - January 2024 (1 year 1 month)</div>
+                        <h3 class="experience-title">Store Manager</h3>
+                        <p class="experience-company">Wingheng – Winglok Group (F&B) – Jakarta</p>
+                    </li>
+                    <!-- Assistant Manager / Shop Attendant McDonald’s -->
+                    <li class="experience-item">
+                        <div class="experience-duration">January 2015 - January 2022 (7 years)</div>
+                        <h3 class="experience-title">Assistant Manager / Shop Attendant</h3>
+                        <p class="experience-company">McDonald’s Indonesia – Bekasi</p>
+                         <p class="experience-description">Recipient of the <strong>Employee Of The Year 2018</strong> award.</p>
+                    </li>
+                </ul>
+            </section>
+            
+            <!-- SKILLS SECTION -->
+            <section id="skills">
+                <h2>KEY SKILLS & DIGITAL TOOLS</h2>
+                <ul class="skills-list">
+                    <li class="skill-tag">Social Media Strategy</li>
+                    <li class="skill-tag">E-Commerce Management (Shopee, Tokopedia)</li>
+                    <li class="skill-tag">Content Creation (TikTok, Instagram)</li>
+                    <li class="skill-tag">Campaign Analysis</li>
+                    <li class="skill-tag">Leadership & Teamwork</li>
+                    <li class="skill-tag">Microsoft Excel/Office</li>
+                    <li class="skill-tag">Web Development (Learning)</li>
+                    <li class="skill-tag">GitHub</li>
+                    <li class="skill-tag">Firebase</li>
+                    <li class="skill-tag">Google Data Studio / Looker Studio</li>
+                    <li class="skill-tag">Communication Skills</li>
+                </ul>
+                <p style="margin-top: 30px; font-style: italic; opacity: 0.8; color: var(--secondary-text);">
+                    <strong>Education:</strong> Bachelor’s Degree in Information System, Binus Univerisity (Jan 2018 - Apr 2025).
+                </p>
+            </section>
+            
+            <!-- PORTFOLIO/REPORTING SECTION -->
+            <section id="portfolio">
+                <h2>DIGITAL PORTFOLIO & REPORTING SYSTEMS</h2>
+                <p>
+                    Showcasing screenshots or links to the custom reporting systems I've built (using Google Data Studio/Looker Studio) and/or links to the social media accounts I managed.
+                </p>
+                
+                <div class="experience-item" style="padding: 15px 0;">
+                    <h3 class="experience-title" style="font-size: 1.1rem; margin-bottom: 5px;">Custom Sales Reporting Dashboard</h3>
+                    <p class="experience-description" style="margin-bottom: 10px;">Developed a dashboard using Google Data Studio to monitor daily/monthly sales performance across e-commerce platforms and physical stores, enabling management to make faster, data-driven decisions.</p>
+                    <a href="#" style="color: var(--accent-color); font-size: 0.9rem;">View Link/Image (Placeholder) →</a>
+                </div>
+            </section>
+            
+            <!-- Footer (Hanya copyright di kolom kanan) -->
+            <footer>
+                <p style="font-size: 0.8rem; color: var(--secondary-text); opacity: 0.7;">&copy; 2025 Kevin Iskandar Hasyim. Built in Semarang, Central Java.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // JAVASCRIPT: Dynamic Date/Duration Calculation
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        function updateExperienceDuration() {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonthIndex = currentDate.getMonth(); 
+            const currentMonthName = months[currentMonthIndex];
+            
+            const currentDateElements = document.querySelectorAll('.current-date');
+            currentDateElements.forEach(el => {
+                el.textContent = `${currentMonthName} ${currentYear}`;
+            });
+
+            const experienceItems = document.querySelectorAll('.experience-duration');
+            
+            experienceItems.forEach(item => {
+                const startDateStr = item.getAttribute('data-start');
+                
+                if (startDateStr && item.textContent.includes('Present')) {
+                    const [startYearStr, startMonthStr] = startDateStr.split('-');
+                    const startYear = parseInt(startYearStr);
+                    const startMonth = parseInt(startMonthStr) - 1; 
+                    
+                    const startDate = new Date(startYear, startMonth, 1);
+                    
+                    let totalMonths = (currentDate.getFullYear() - startDate.getFullYear()) * 12;
+                    totalMonths -= startDate.getMonth();
+                    totalMonths += currentDate.getMonth() + 1;
+
+                    if (totalMonths < 0) totalMonths = 0;
+
+                    const years = Math.floor(totalMonths / 12);
+                    const remainingMonths = totalMonths % 12;
+                    
+                    let durationText = "(";
+                    if (years > 0) {
+                        durationText += `${years} year${years > 1 ? 's' : ''}`;
+                        if (remainingMonths > 0) {
+                            durationText += ` ${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+                        }
+                    } else if (remainingMonths > 0) {
+                         durationText += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+                    } else {
+                        durationText += `less than a month`;
+                    }
+                    durationText += ")";
+
+                    if (!item.textContent.includes('(')) {
+                        item.textContent = item.textContent + ` ${durationText}`;
+                    }
+                }
+            });
+        }
+        
+        // JAVASCRIPT: Update Nav Link saat scroll
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('.content-area section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let currentActive = '';
+            const offset = 200; 
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = sections[i];
+                const rect = section.getBoundingClientRect();
+                
+                if (rect.top <= offset) {
+                    currentActive = section.getAttribute('id');
+                    break;
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            if (currentActive) {
+                const activeLink = document.querySelector(`.nav-link[href="#${currentActive}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        }
+
+        // JAVASCRIPT: SMOOTH SCROLL PADA KLIK NAVIGASI
+        function setupSmoothScroll() {
+            document.querySelectorAll('.nav-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault(); 
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const offsetTop = targetElement.offsetTop;
+                        
+                        window.scrollTo({
+                            top: offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Run functions when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            updateExperienceDuration();
+            updateActiveNav();
+            setupSmoothScroll();
+        });
+        
+        // Add listener for scroll events
+        window.addEventListener('scroll', updateActiveNav);
+        
+    </script>
+</body>
+</html>
