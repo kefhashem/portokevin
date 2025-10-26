@@ -48,6 +48,7 @@
         
         /* NEW Home Photo Style */
         .home-photo-container {
+	    transition: opacity 0.5s ease-in-out;
             position: relative;
             mask-image: linear-gradient(to top, transparent 2%, black 30%);
             -webkit-mask-image: linear-gradient(to top, transparent 2%, black 30%);
@@ -98,7 +99,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center w-full">
                     <div class="flex justify-center items-end h-full">
                         <div class="home-photo-container">
-                           <img src="assets/kevin.jpg" alt="Foto Profil Kevin Iskandar" class="w-auto h-auto max-h-[90vh] object-contain" style="filter: drop-shadow(0px 0px 25px rgba(56, 189, 248, 0.3));">
+                           <img id="home-profile-pic" src="assets/kevin-iskandar.png" alt="Foto Profil Kevin Iskandar" class="w-full h-auto max-h-[90vh] object-contain" style="filter: drop-shadow(0px 0px 25px rgba(56, 189, 248, 0.3));">
                         </div>
                     </div>
                     <div class="text-center lg:text-left">
@@ -188,6 +189,43 @@
             const roles = ["Marketing Manager", "Digital Enthusiast", "Content Creator"]; let roleIndex = 0; const roleContainer = document.querySelector('.animated-role-container');
             function animateRoles() { const newRole = document.createElement('span'); newRole.textContent = roles[roleIndex]; newRole.className = 'animated-role'; const oldRole = roleContainer.querySelector('.animated-role'); if (oldRole) { oldRole.classList.add('exiting'); oldRole.classList.remove('active'); setTimeout(() => { oldRole.remove(); }, 500); } roleContainer.appendChild(newRole); setTimeout(() => { newRole.classList.add('active'); }, 50); roleIndex = (roleIndex + 1) % roles.length; setTimeout(animateRoles, 3000); }
             window.addEventListener('load', () => setTimeout(animateRoles, 500));
+// --- MULAI: SCRIPT UNTUK GANTI FOTO OTOMATIS ---
+
+        // 1. Ganti nama file ini sesuai dengan nama file foto Anda di folder 'assets'
+        const profilePics = [
+            'assets/kevin.png', // Foto pertama (default)
+            'assets/kevn2.jpg',     // Ganti dengan nama file foto ke-2 Anda
+            'assets/kevin3.jpg'       // Ganti dengan nama file foto ke-3 Anda
+            // Tambahkan foto sebanyak yang Anda mau di sini
+        ];
+        
+        let currentPicIndex = 0;
+        const picElement = document.getElementById('home-profile-pic');
+
+        function changeProfilePic() {
+            if (!picElement) return; // Keamanan jika elemen tidak ditemukan
+
+            // 1. Fade out gambar yang sekarang
+            picElement.style.opacity = 0;
+
+            // 2. Tunggu transisi fade out selesai (500ms, sama seperti di CSS)
+            setTimeout(() => {
+                // 3. Ganti index foto
+                currentPicIndex = (currentPicIndex + 1) % profilePics.length;
+                
+                // 4. Set sumber gambar baru (saat ini gambar masih transparan)
+                picElement.src = profilePics[currentPicIndex];
+
+                // 5. Fade in gambar baru
+                picElement.style.opacity = 1;
+            }, 500); // 500ms harus cocok dengan durasi transisi di CSS
+        }
+
+        // 6. Atur interval: ganti foto setiap 5 detik (5000 milidetik)
+        // Anda bisa ganti 5000 menjadi 4000 (4 detik) atau 6000 (6 detik)
+        setInterval(changeProfilePic, 5000);
+
+        // --- SELESAI: SCRIPT UNTUK GANTI FOTO OTOMATIS ---
             let scene, camera, renderer, points, lines; const mouse = new THREE.Vector2(); function initPlexus() { scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); camera.position.z = 10; renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true }); renderer.setSize(window.innerWidth, window.innerHeight); const particlesCnt = 150; const positions = new Float32Array(particlesCnt * 3); for (let i = 0; i < particlesCnt; i++) { positions[i * 3] = (Math.random() - 0.5) * 30; positions[i * 3 + 1] = (Math.random() - 0.5) * 30; positions[i * 3 + 2] = (Math.random() - 0.5) * 30; } const particlesGeometry = new THREE.BufferGeometry(); particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3)); const particlesMaterial = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.1 }); points = new THREE.Points(particlesGeometry, particlesMaterial); scene.add(points); const lineGeometry = new THREE.BufferGeometry(); const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 }); lines = new THREE.LineSegments(lineGeometry, lineMaterial); scene.add(lines); window.addEventListener('resize', onWindowResize); document.addEventListener('mousemove', onMouseMove); } function animatePlexus() { requestAnimationFrame(animatePlexus); const positions = points.geometry.attributes.position.array; const linePositions = []; for (let i = 0; i < positions.length / 3; i++) { for (let j = i + 1; j < positions.length / 3; j++) { const dx = positions[i * 3] - positions[j * 3]; const dy = positions[i * 3 + 1] - positions[j * 3 + 1]; const dz = positions[i * 3 + 2] - positions[j * 3 + 2]; const dist = Math.sqrt(dx * dx + dy * dy + dz * dz); if (dist < 2) { linePositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]); linePositions.push(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]); } } } lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3)); points.rotation.x += 0.0001; points.rotation.y += 0.0002; camera.position.x += (mouse.x * 5 - camera.position.x) * 0.05; camera.position.y += (-mouse.y * 5 - camera.position.y) * 0.05; camera.lookAt(scene.position); renderer.render(scene, camera); } function onWindowResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); } function onMouseMove(event) { mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; } initPlexus(); animatePlexus();
             const navLinks = document.querySelectorAll('.nav-link'); let currentIndex = 0; navLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const targetIndex = parseInt(link.dataset.index); if (targetIndex === currentIndex) return; const currentSection = document.querySelector(`.content-section[data-index="${currentIndex}"]`); const targetSection = document.querySelector(`.content-section[data-index="${targetIndex}"]`); if (targetIndex > currentIndex) { currentSection.classList.add('exit-to-left'); targetSection.classList.remove('from-left'); targetSection.classList.add('from-right'); } else { currentSection.classList.add('exit-to-right'); targetSection.classList.remove('from-right'); targetSection.classList.add('from-left'); } currentSection.classList.remove('active'); setTimeout(() => { currentSection.classList.remove('exit-to-left', 'exit-to-right'); }, 800); setTimeout(() => { targetSection.classList.remove('from-left', 'from-right'); targetSection.classList.add('active'); }, 50); document.querySelector('.nav-link.active').classList.remove('active'); link.classList.add('active'); currentIndex = targetIndex; }); });
             const tabButtons = document.querySelectorAll('.tab-btn'); const tabContents = document.querySelectorAll('.tab-content'); tabButtons.forEach(button => { button.addEventListener('click', () => { const targetTab = button.dataset.tab; tabButtons.forEach(btn => btn.classList.remove('active')); button.classList.add('active'); tabContents.forEach(content => { content.classList.toggle('active', content.id === targetTab); }); }); });
